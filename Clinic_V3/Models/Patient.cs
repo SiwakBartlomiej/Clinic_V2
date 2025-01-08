@@ -8,10 +8,7 @@ public class Patient
     public DateTime DateOfBirth { get; set; }
     public char Gender { get; set; }
     public ContactInformation ContactInfo { get; set; }
-    public DateTime LastVisitDate { get; set; }
     public List<Visit> Visits { get; set; }
-    public string Status { get; set; }
-    public string DoctorNotes { get; set; }
 
     public Patient()
     {
