@@ -3,22 +3,24 @@ import { ref } from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import HeaderText from '../components/HeaderText.vue'
-import axios from "axios";
-const date = ref(null)
+import axios from 'axios'
+var startDate = new Date()
+var range = 7
+var endDate = new Date(startDate.setDate(startDate.getDate() + range))
+const dates = ref([new Date(), endDate])
+var visit;
 
-const data = ref<any>(null); // Zmienna do przechowywania odpowiedzi z API
-    const error = ref<string | null>(null); // Zmienna do przechowywania błędów
-const callApi = async () => {
-  try {
-    const response = await axios.get("http://localhost:5013/weatherforecast");
-    data.value = response.data;
-    error.value = null;
-    console.log(data.value);
-  } catch (err: any) {
-    error.value = err.message;
-    data.value = null;
-  }
-};
+const searchAppointments = async () => {
+  axios
+    .post(`http://localhost:5013/login`, null, {
+      params: {
+        dateStart: String(dates.value[0]),
+        dateEnd: String(dates.value[1]),
+      },
+    })
+    .then((response) => console.log(response))
+    .catch((err) => console.warn(err))
+}
 </script>
 
 <template>
@@ -28,7 +30,7 @@ const callApi = async () => {
       <div class="date-picker">
         <label>Data (od - do)</label>
         <VueDatePicker
-          v-model="date"
+          v-model="dates"
           range
           locale="pl"
           format="dd-MM-yyyy"
@@ -44,7 +46,7 @@ const callApi = async () => {
           <option>Pobranie krwi</option>
         </select>
       </div>
-      <button @click="callApi" type="button" class="btn btn-primary">
+      <button @click="searchAppointments" type="button" class="btn btn-primary">
         <span class="material-symbols-outlined"> search </span>
         Szukaj
       </button>
