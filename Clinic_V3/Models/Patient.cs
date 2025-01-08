@@ -15,8 +15,6 @@ public class Patient
 
     public Patient()
     {
-        MedicalHistory = new List<string>();
-        CurrentMedications = new List<string>();
         Visits = new List<Visit>();
         ContactInfo = new ContactInformation();
     }

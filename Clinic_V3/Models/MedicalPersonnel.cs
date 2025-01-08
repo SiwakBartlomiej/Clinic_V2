@@ -1,6 +1,6 @@
 namespace Clinic_V3.Models;
 
-public class Doctor
+public class MedicalPersonnel
 {
     public int Id { get; set; }
     public string FirstName { get; set; }
@@ -8,8 +8,9 @@ public class Doctor
     public string Specialization { get; set; }
     public ContactInformation ContactInfo { get; set; }
     public List<Patient> Patients { get; set; }
+    public MedicalPersonnelType MedicalPersonnelType { get; set; }
 
-    public Doctor()
+    public MedicalPersonnel()
     {
         Patients = new List<Patient>();
         ContactInfo = new ContactInformation();

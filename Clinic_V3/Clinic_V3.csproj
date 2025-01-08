@@ -11,4 +11,13 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="MedicalPersonnelType.cs">
+        <DependentUpon>Enums</DependentUpon>
+      </Compile>
+      <Compile Update="UserType.cs">
+        <DependentUpon>Enums</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>
