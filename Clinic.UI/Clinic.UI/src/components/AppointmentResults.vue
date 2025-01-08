@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type Appointment from '../interfaces.ts'
+import Modal from "./Modal.vue"
 
 const props = defineProps({
   appointments: Array<Appointment>,
@@ -11,23 +12,32 @@ const formatDate = (date: Date) => {
   const month = (date.getMonth() + 1).toString().padStart(2, '0')
   const year = date.getFullYear()
 
-  return `${day}/${month}/${year}`
+  const hours = date.getHours().toString().padStart(2, '0')
+  const minutes = date.getMinutes().toString().padStart(2, '0')
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`
 }
 </script>
 
 <template>
   <div class="results website-content">
-    <div class="result" v-for="appointment in appointments">
+    <button
+      class="result"
+      type="button"
+      data-toggle="modal"
+      data-target="#exampleModal"
+      v-for="appointment in appointments"
+    >
       <p class="date">{{ formatDate(appointment.date) }}</p>
       <p class="service">{{ appointment.type }}</p>
       <p class="personnel">
         {{
-          `${appointment.medicalPersonnel.title} ${appointment.medicalPersonnel.firstName}
-       ${appointment.medicalPersonnel.lastName}`
+          `${appointment.medicalPersonnel.title} ${appointment.medicalPersonnel.firstName} ${appointment.medicalPersonnel.lastName}`
         }}
       </p>
-    </div>
+    </button>
   </div>
+    <Modal></Modal>
 </template>
 
 <style lang="scss" scoped>
@@ -35,7 +45,9 @@ const formatDate = (date: Date) => {
   padding-top: 0;
 
   .result {
+    width: 100%;
     margin-bottom: 30px;
+    background-color: transparent;
     display: flex;
     gap: 10px;
     border: 1px solid gray;
@@ -49,7 +61,7 @@ const formatDate = (date: Date) => {
     }
 
     .date {
-      flex: 2;
+      flex: 3;
     }
 
     .service {
