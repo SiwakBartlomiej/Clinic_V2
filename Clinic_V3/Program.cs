@@ -12,6 +12,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+    app.UseSwaggerUI();
     app.UseCors(
         options => options.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader()
     );
@@ -19,17 +20,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/appointments", (string dateStart, string dateEnd, string visitType) =>
     {
-        return
-            "{\n  \"name\": \"John Doe\",\n  \"age\": 30,\n  \"email\": \"johndoe@example.com\",\n  \"isAdmin\": true,\n  \"friends\": [\"Jane\", \"Bob\", \"Alice\"]\n}";
-    })
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
-
-app.MapPost("/login", (string dateStart, string dateEnd) =>
-    {
-        Visit visit = new Visit()
+        var appointments = new List<Appointment>();
+        Appointment appointment = new Appointment()
         {
             Date = DateTime.Now.AddDays(2),
             MedicalPersonnel = new MedicalPersonnel()
@@ -42,7 +36,9 @@ app.MapPost("/login", (string dateStart, string dateEnd) =>
                 Title = "dr"
             }
         };
-        return visit;
+        
+        appointments.Add(appointment);
+        return appointments;
     })
     .WithName("Login")
     .WithOpenApi();

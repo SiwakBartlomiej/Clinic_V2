@@ -1,6 +1,6 @@
 namespace Clinic_V3.Models;
 
-public class Visit
+public class Appointment
 {
     public DateTime Date { get; set; }
     public MedicalPersonnel MedicalPersonnel { get; set; }

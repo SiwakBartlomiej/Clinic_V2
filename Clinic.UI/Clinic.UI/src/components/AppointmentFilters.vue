@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import HeaderText from '../components/HeaderText.vue'
@@ -8,17 +8,41 @@ var startDate = new Date()
 var range = 7
 var endDate = new Date(startDate.setDate(startDate.getDate() + range))
 const dates = ref([new Date(), endDate])
-var visit;
+const appointments = ref<Appointment[]>([])
+
+interface Appointment {
+  date: Date
+  medicalPersonnel: MedicalPersonnel
+  reason?: string
+  diagnosis?: boolean
+}
+
+interface MedicalPersonnel {
+  id: number,
+  title: string,
+  firstName: string,
+  lastName: string,
+  specialization: string
+  personelType: MedicalPersonnelType
+}
+
+enum MedicalPersonnelType {
+  Doctor,
+  Nurse
+}
 
 const searchAppointments = async () => {
-  axios
-    .post(`http://localhost:5013/login`, null, {
+  await axios
+    .get<Appointment[]>(`http://localhost:5013/appointments`, {
       params: {
         dateStart: String(dates.value[0]),
         dateEnd: String(dates.value[1]),
+        visitType: "Pobranie krwi"
       },
     })
-    .then((response) => console.log(response))
+    .then((response) => {
+      appointments.value = response.data
+    })
     .catch((err) => console.warn(err))
 }
 
@@ -31,6 +55,7 @@ const disableDates = (date: Date) => {
 
 <template>
   <HeaderText text="Wyszukiwarka wizyt i zabiegów"></HeaderText>
+  <div v-if="appointments.length !== 0" v-for="appointment in appointments">{{ appointment.date }} {{ appointment.medicalPersonnel.firstName }}</div>
   <div class="website-content">
     <div class="filters-wrapper">
       <div class="date-picker">
