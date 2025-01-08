@@ -21,6 +21,12 @@ const searchAppointments = async () => {
     .then((response) => console.log(response))
     .catch((err) => console.warn(err))
 }
+
+const disableDates = (date: Date) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return date < today
+}
 </script>
 
 <template>
@@ -34,13 +40,14 @@ const searchAppointments = async () => {
           range
           locale="pl"
           format="dd-MM-yyyy"
+          :disabledDates="disableDates"
           :enableTimePicker="false"
         />
       </div>
       <div class="service-picker">
-        <label>Wizyta / zabieg </label>
+        <label>Typ wizyty</label>
         <select class="form-select">
-          <option hidden disabled selected value>Wybierz wizytę lub zabieg</option>
+          <option hidden disabled selected value>Wybierz typ wizyty</option>
           <option>Kardiolog - konsultacja</option>
           <option>Pediatra - konsultacja</option>
           <option>Pobranie krwi</option>
@@ -56,6 +63,15 @@ const searchAppointments = async () => {
 
 <style lang="scss" scoped>
 .website-content {
+  :deep(.dp__menu) {
+    --dp-primary-color: var(--secondary-color);
+    text-align: center;
+
+    .dp__action_cancel {
+      display: none;
+    }
+  }
+
   h2 {
     display: block;
     text-align: center;
