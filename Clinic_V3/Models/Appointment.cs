@@ -6,4 +6,5 @@ public class Appointment
     public MedicalPersonnel MedicalPersonnel { get; set; }
     public string Reason { get; set; }
     public string Diagnosis { get; set; }
+    public string Type { get; set; }
 }

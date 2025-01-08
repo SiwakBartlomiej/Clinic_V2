@@ -14,30 +14,88 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseCors(
-        options => options.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader()
+        options => options.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader() //FIX eventually
     );
 }
 
 app.UseHttpsRedirection();
 
-app.MapGet("/appointments", (string dateStart, string dateEnd, string visitType) =>
+app.MapGet("/appointments", (string dateStart, string dateEnd, string appointmentType) =>
     {
-        var appointments = new List<Appointment>();
-        Appointment appointment = new Appointment()
+        var appointments = new List<Appointment>
         {
-            Date = DateTime.Now.AddDays(2),
-            MedicalPersonnel = new MedicalPersonnel()
+            new Appointment()
             {
-                Id = 1,
-                FirstName = "John",
-                LastName = "Doe",
-                MedicalPersonnelType = MedicalPersonnelType.Doctor,
-                Specialization = "Kardiolog",
-                Title = "dr"
+                Date = DateTime.Now.AddDays(2),
+                Type = "Konsultacja kardiologiczna",
+                MedicalPersonnel = new MedicalPersonnel()
+                {
+                    Id = 1,
+                    FirstName = "John",
+                    LastName = "Doe",
+                    MedicalPersonnelType = MedicalPersonnelType.Doctor,
+                    Specialization = "Kardiolog",
+                    Title = "dr"
+                }
+            },
+            new Appointment()
+            {
+                Date = DateTime.Now.AddDays(5),
+                Type = "Badanie kontrolne",
+                MedicalPersonnel = new MedicalPersonnel()
+                {
+                    Id = 2,
+                    FirstName = "Jane",
+                    LastName = "Smith",
+                    MedicalPersonnelType = MedicalPersonnelType.Nurse,
+                    Specialization = "Pielęgniarstwo",
+                    Title = "mgr"
+                }
+            },
+            new Appointment()
+            {
+                Date = DateTime.Now.AddDays(7),
+                Type = "Konsultacja neurologiczna",
+                MedicalPersonnel = new MedicalPersonnel()
+                {
+                    Id = 3,
+                    FirstName = "Emily",
+                    LastName = "Brown",
+                    MedicalPersonnelType = MedicalPersonnelType.Doctor,
+                    Specialization = "Neurolog",
+                    Title = "dr"
+                }
+            },
+            new Appointment()
+            {
+                Date = DateTime.Now.AddDays(10),
+                Type = "Badanie diagnostyczne",
+                MedicalPersonnel = new MedicalPersonnel()
+                {
+                    Id = 4,
+                    FirstName = "Michael",
+                    LastName = "White",
+                    MedicalPersonnelType = MedicalPersonnelType.Doctor,
+                    Specialization = "Diagnostyka obrazowa",
+                    Title = "inż."
+                }
+            },
+            new Appointment()
+            {
+                Date = DateTime.Now.AddDays(14),
+                Type = "Konsultacja pediatryczna",
+                MedicalPersonnel = new MedicalPersonnel()
+                {
+                    Id = 5,
+                    FirstName = "Sophia",
+                    LastName = "Green",
+                    MedicalPersonnelType = MedicalPersonnelType.Doctor,
+                    Specialization = "Pediatra",
+                    Title = "dr"
+                }
             }
         };
-        
-        appointments.Add(appointment);
+
         return appointments;
     })
     .WithName("Login")

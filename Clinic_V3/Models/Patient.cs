@@ -8,11 +8,11 @@ public class Patient
     public DateTime DateOfBirth { get; set; }
     public char Gender { get; set; }
     public ContactInformation ContactInfo { get; set; }
-    public List<Appointment> Visits { get; set; }
+    public List<Appointment> Appointments { get; set; }
 
     public Patient()
     {
-        Visits = new List<Appointment>();
+        Appointments = new List<Appointment>();
         ContactInfo = new ContactInformation();
     }
 }

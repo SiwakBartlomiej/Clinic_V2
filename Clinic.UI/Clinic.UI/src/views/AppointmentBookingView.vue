@@ -1,24 +1,31 @@
 <script setup lang="ts">
 import AppointmentFilters from '../components/AppointmentFilters.vue'
+import { ref } from 'vue'
+import type Appointment from '../interfaces.ts'
+const appointments = ref<Appointment[]>([])
+
+const handleDataUpdate = (data: Appointment[]) => {
+  appointments.value = data
+}
+
+const formatDate = (date: Date) => {
+  date = new Date(date);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
 </script>
 
 <template>
-  <AppointmentFilters></AppointmentFilters>
+  <AppointmentFilters @updateData="handleDataUpdate"></AppointmentFilters>
   <div class="results website-content">
-    <div class="result">
-      <p class="date">17/01/2025 10:30</p>
-      <p class="service">Kardiolog - konsultacja</p>
-      <p class="personnel">dr n. med. Andrzej Chropowiński</p>
-    </div>
-    <div class="result">
-      <p class="date">17/01/2025 08:15</p>
-      <p class="service">Kardiolog - konsultacja</p>
-      <p class="personnel">dr n. med. Andrzej Chropowiński</p>
-    </div>
-    <div class="result">
-      <p class="date">17/01/2025 17:00</p>
-      <p class="service">Kardiolog - konsultacja</p>
-      <p class="personnel">dr n. med. Andrzej Chropowiński</p>
+    <div class="result" v-for="appointment in appointments">
+      <p class="date">{{ formatDate(appointment.date) }}</p>
+      <p class="service"> {{ appointment.type }}</p>
+      <p class="personnel">{{`${appointment.medicalPersonnel.title} ${appointment.medicalPersonnel.firstName}
+       ${appointment.medicalPersonnel.lastName}`}}</p>
     </div>
   </div>
 </template>
