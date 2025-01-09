@@ -1,4 +1,5 @@
 export default interface Appointment {
+  id: number
   date: Date
   medicalPersonnel: MedicalPersonnel
   type: string

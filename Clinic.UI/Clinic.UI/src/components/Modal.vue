@@ -1,21 +1,27 @@
+<script setup lang="ts">
+const props = defineProps({
+  title: String,
+  body: String,
+  btnConfirmText: String,
+  btnCancelText: String,
+})
+</script>
+
 <template>
-  <div
-    class="modal fade"
-    id="exampleModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="exampleModal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Czy potwierdzasz wizytę?</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{ title }}</h5>
         </div>
-        <div class="modal-body">...</div>
+        <div class="modal-body">{{ body }}</div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-          <button type="button" class="btn btn-primary">Potwierdzam</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            {{ btnCancelText }}
+          </button>
+          <button @click="$emit('modal-action')" type="button" class="btn btn-primary">
+            {{ btnConfirmText }}
+          </button>
         </div>
       </div>
     </div>

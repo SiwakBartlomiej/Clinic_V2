@@ -12,19 +12,6 @@ const callApi = async () => {
     console.log('wtf')
   }
 }
-
-//WORKING POST
-// const searchAppointments = async () => {
-//   axios
-//     .post(`http://localhost:5013/login`, null, {
-//       params: {
-//         dateStart: String(dates.value[0]),
-//         dateEnd: String(dates.value[1]),
-//       },
-//     })
-//     .then((response) => console.log(response))
-//     .catch((err) => console.warn(err))
-// }
 </script>
 
 <template>

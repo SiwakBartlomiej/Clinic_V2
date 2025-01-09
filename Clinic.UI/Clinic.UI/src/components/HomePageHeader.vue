@@ -1,8 +1,11 @@
 <template>
   <div class="home-header">
     <img src="/Doctors.jpg" />
-    <div class="website-content content-wrapper">
-      <h1>Witamy w Mokotowski Clinic!</h1>
+    <div class="website-content">
+      <h1>
+        Witamy w
+        <div class="company-name">Mokotowski Clinic</div>
+      </h1>
       <RouterLink class="btn btn-primary me-2" to="/about">O nas</RouterLink>
       <RouterLink class="btn btn-secondary" to="/login">Zaloguj się</RouterLink>
     </div>
@@ -33,12 +36,17 @@
     border-color: white;
   }
 
-  .content-wrapper {
+  .website-content {
     position: absolute;
 
     h1 {
       font-size: 3.5rem;
       color: white;
+
+      .company-name {
+        font-size: inherit;
+        line-height: inherit;
+      }
     }
   }
 }

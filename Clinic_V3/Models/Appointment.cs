@@ -2,6 +2,7 @@ namespace Clinic_V3.Models;
 
 public class Appointment
 {
+    public int Id { get; set; }
     public DateTime Date { get; set; }
     public MedicalPersonnel MedicalPersonnel { get; set; }
     public string Reason { get; set; }

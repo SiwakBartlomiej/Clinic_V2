@@ -20,12 +20,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapPost("/book-appointment", (int appointmentId) =>
+{
+    Console.WriteLine(appointmentId);
+});
+
 app.MapGet("/appointments", (string dateStart, string dateEnd, string appointmentType) =>
     {
         var appointments = new List<Appointment>
         {
             new Appointment()
             {
+                Id = 1,
                 Date = DateTime.Now.AddDays(2),
                 Type = "Konsultacja kardiologiczna",
                 MedicalPersonnel = new MedicalPersonnel()
@@ -40,6 +46,7 @@ app.MapGet("/appointments", (string dateStart, string dateEnd, string appointmen
             },
             new Appointment()
             {
+                Id = 2,
                 Date = DateTime.Now.AddDays(5),
                 Type = "Badanie kontrolne",
                 MedicalPersonnel = new MedicalPersonnel()
@@ -54,6 +61,7 @@ app.MapGet("/appointments", (string dateStart, string dateEnd, string appointmen
             },
             new Appointment()
             {
+                Id = 3,
                 Date = DateTime.Now.AddDays(7),
                 Type = "Konsultacja neurologiczna",
                 MedicalPersonnel = new MedicalPersonnel()
@@ -68,6 +76,7 @@ app.MapGet("/appointments", (string dateStart, string dateEnd, string appointmen
             },
             new Appointment()
             {
+                Id = 4,
                 Date = DateTime.Now.AddDays(10),
                 Type = "Badanie diagnostyczne",
                 MedicalPersonnel = new MedicalPersonnel()
@@ -82,6 +91,7 @@ app.MapGet("/appointments", (string dateStart, string dateEnd, string appointmen
             },
             new Appointment()
             {
+                Id = 5,
                 Date = DateTime.Now.AddDays(14),
                 Type = "Konsultacja pediatryczna",
                 MedicalPersonnel = new MedicalPersonnel()

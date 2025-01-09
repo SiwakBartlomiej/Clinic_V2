@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type Appointment from '../interfaces.ts'
-import Modal from "./Modal.vue"
+import Modal from './Modal.vue'
+import axios from 'axios'
+
+var selectedAppointmentId: number
 
 const props = defineProps({
   appointments: Array<Appointment>,
@@ -17,6 +20,17 @@ const formatDate = (date: Date) => {
 
   return `${day}/${month}/${year} ${hours}:${minutes}`
 }
+
+const bookAppointment = async () => {
+  axios
+    .post(`http://localhost:5013/book-appointment`, null, {
+      params: {
+        appointmentId: selectedAppointmentId,
+      },
+    })
+    .then((response) => console.log(response))
+    .catch((err) => console.warn(err))
+}
 </script>
 
 <template>
@@ -27,6 +41,7 @@ const formatDate = (date: Date) => {
       data-toggle="modal"
       data-target="#exampleModal"
       v-for="appointment in appointments"
+      @click="selectedAppointmentId = appointment.id"
     >
       <p class="date">{{ formatDate(appointment.date) }}</p>
       <p class="service">{{ appointment.type }}</p>
@@ -35,9 +50,15 @@ const formatDate = (date: Date) => {
           `${appointment.medicalPersonnel.title} ${appointment.medicalPersonnel.firstName} ${appointment.medicalPersonnel.lastName}`
         }}
       </p>
+      <span class="material-symbols-outlined"> arrow_forward_ios </span>
     </button>
+    <Modal
+      @modal-action="bookAppointment"
+      title="Czy potwierdzasz wizytę?"
+      btn-cancel-text="Anuluj"
+      btn-confirm-text="Potwierdzam"
+    ></Modal>
   </div>
-    <Modal></Modal>
 </template>
 
 <style lang="scss" scoped>
@@ -55,21 +76,30 @@ const formatDate = (date: Date) => {
     text-align: center;
     justify-content: center;
     padding: 20px;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateX(20px);
+    }
 
     p {
       margin-bottom: 0;
     }
 
     .date {
-      flex: 3;
+      flex: 2;
     }
 
     .service {
-      flex: 5;
+      flex: 4;
     }
 
     .personnel {
-      flex: 5;
+      flex: 4;
+    }
+
+    .material-symbols-outlined {
+      flex: 1;
     }
   }
 }
