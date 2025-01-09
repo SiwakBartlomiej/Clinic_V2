@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   title: String,
   btnConfirmText: String,
   btnCancelText: String,
@@ -7,11 +7,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="modal fade" id="exampleModal">
-    <div class="modal-dialog" role="document">
+  <div class="modal fade" id="modal">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{ title }}</h5>
+          <h5 class="modal-title">{{ title }}</h5>
         </div>
         <div class="modal-body">
           <slot name="body"></slot>
@@ -20,7 +20,11 @@ const props = defineProps({
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             {{ btnCancelText }}
           </button>
-          <button @click="$emit('modal-action')" type="button" class="btn btn-primary">
+          <button
+            @click="$emit('modal-action')"
+            type="button"
+            class="btn btn-primary"
+          >
             {{ btnConfirmText }}
           </button>
         </div>

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import {ref} from 'vue'
+import { ref } from 'vue'
 import type { Appointment } from '../interfaces.ts'
 import Modal from './Modal.vue'
 import axios from 'axios'
-import { formatDate, getMedicalPersonnelFullName }from '../utils.ts'
+import { formatDate, getMedicalPersonnelFullName } from '../utils.ts'
 
 defineProps({
   appointments: Array<Appointment>,
 })
 
-const selectedAppointment = ref<Appointment>();
+const selectedAppointment = ref<Appointment>()
 
 const bookAppointment = async () => {
   axios
@@ -29,7 +29,7 @@ const bookAppointment = async () => {
       class="result"
       type="button"
       data-toggle="modal"
-      data-target="#exampleModal"
+      data-target="#modal"
       v-for="appointment in appointments"
       @click="selectedAppointment = appointment"
     >
@@ -46,15 +46,15 @@ const bookAppointment = async () => {
       btn-cancel-text="Anuluj"
       btn-confirm-text="Potwierdzam"
     >
-    <template #body>
-      <label>Typ wizyty:</label>
-      <h4>{{ selectedAppointment?.type }}</h4>
-      <label>Data:</label>
-      <h4>{{ formatDate(selectedAppointment?.date ?? new Date()) }}</h4>
-      <label>Lekarz:</label>
-      <h4>{{ getMedicalPersonnelFullName(selectedAppointment?.medicalPersonnel ) }}</h4>
-    </template>
-  </Modal>
+      <template #body>
+        <label>Typ wizyty:</label>
+        <h4>{{ selectedAppointment?.type }}</h4>
+        <label>Data:</label>
+        <h4>{{ formatDate(selectedAppointment?.date ?? new Date()) }}</h4>
+        <label>Lekarz:</label>
+        <h4>{{ getMedicalPersonnelFullName(selectedAppointment?.medicalPersonnel) }}</h4>
+      </template>
+    </Modal>
   </div>
 </template>
 
