@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const props = defineProps({
   title: String,
-  body: String,
   btnConfirmText: String,
   btnCancelText: String,
 })
@@ -14,7 +13,9 @@ const props = defineProps({
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">{{ title }}</h5>
         </div>
-        <div class="modal-body">{{ body }}</div>
+        <div class="modal-body">
+          <slot name="body"></slot>
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             {{ btnCancelText }}

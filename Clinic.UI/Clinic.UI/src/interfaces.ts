@@ -1,4 +1,4 @@
-export default interface Appointment {
+export interface Appointment {
   id: number
   date: Date
   medicalPersonnel: MedicalPersonnel
@@ -7,12 +7,12 @@ export default interface Appointment {
   diagnosis?: boolean
 }
 
-enum MedicalPersonnelType {
+export enum MedicalPersonnelType {
   Doctor,
   Nurse,
 }
 
-interface MedicalPersonnel {
+export interface MedicalPersonnel {
   id: number
   title: string
   firstName: string

@@ -1,31 +1,21 @@
 <script setup lang="ts">
-import type Appointment from '../interfaces.ts'
+import {ref} from 'vue'
+import type { Appointment } from '../interfaces.ts'
 import Modal from './Modal.vue'
 import axios from 'axios'
+import { formatDate, getMedicalPersonnelFullName }from '../utils.ts'
 
-var selectedAppointmentId: number
-
-const props = defineProps({
+defineProps({
   appointments: Array<Appointment>,
 })
 
-const formatDate = (date: Date) => {
-  date = new Date(date)
-  const day = date.getDate().toString().padStart(2, '0')
-  const month = (date.getMonth() + 1).toString().padStart(2, '0')
-  const year = date.getFullYear()
-
-  const hours = date.getHours().toString().padStart(2, '0')
-  const minutes = date.getMinutes().toString().padStart(2, '0')
-
-  return `${day}/${month}/${year} ${hours}:${minutes}`
-}
+const selectedAppointment = ref<Appointment>();
 
 const bookAppointment = async () => {
   axios
     .post(`http://localhost:5013/book-appointment`, null, {
       params: {
-        appointmentId: selectedAppointmentId,
+        appointmentId: selectedAppointment.value?.id,
       },
     })
     .then((response) => console.log(response))
@@ -41,23 +31,30 @@ const bookAppointment = async () => {
       data-toggle="modal"
       data-target="#exampleModal"
       v-for="appointment in appointments"
-      @click="selectedAppointmentId = appointment.id"
+      @click="selectedAppointment = appointment"
     >
       <p class="date">{{ formatDate(appointment.date) }}</p>
       <p class="service">{{ appointment.type }}</p>
       <p class="personnel">
-        {{
-          `${appointment.medicalPersonnel.title} ${appointment.medicalPersonnel.firstName} ${appointment.medicalPersonnel.lastName}`
-        }}
+        {{ getMedicalPersonnelFullName(appointment.medicalPersonnel) }}
       </p>
       <span class="material-symbols-outlined"> arrow_forward_ios </span>
     </button>
     <Modal
       @modal-action="bookAppointment"
-      title="Czy potwierdzasz wizytę?"
+      title="Czy na pewno chcesz umówić wizytę?"
       btn-cancel-text="Anuluj"
       btn-confirm-text="Potwierdzam"
-    ></Modal>
+    >
+    <template #body>
+      <label>Typ wizyty:</label>
+      <h4>{{ selectedAppointment?.type }}</h4>
+      <label>Data:</label>
+      <h4>{{ formatDate(selectedAppointment?.date ?? new Date()) }}</h4>
+      <label>Lekarz:</label>
+      <h4>{{ getMedicalPersonnelFullName(selectedAppointment?.medicalPersonnel ) }}</h4>
+    </template>
+  </Modal>
   </div>
 </template>
 
