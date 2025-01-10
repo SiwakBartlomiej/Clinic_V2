@@ -78,7 +78,8 @@ getAppointments()
       <h2>Dane Kontaktowe</h2>
       <strong>Adres:</strong>
       <p>
-        {{ contactInfo?.address?.postalCode }} {{ contactInfo?.address?.city }}, {{ contactInfo?.address?.street }}
+        {{ contactInfo?.address?.postalCode }} {{ contactInfo?.address?.city }},
+        {{ contactInfo?.address?.street }}
       </p>
       <strong>Numer telefonu:</strong>
       <p>{{ contactInfo?.phone }}</p>
