@@ -1,5 +1,22 @@
 <script setup lang="ts">
+import axios from 'axios'
+import { ref } from 'vue'
 import HeaderText from '../components/HeaderText.vue'
+import type { ContactInformation } from "../interfaces.ts"
+
+const contactInfo = ref<ContactInformation>();
+const patient_id = 4;
+
+const getContactInformation = async () => {
+  await axios
+    .get<ContactInformation>(`http://localhost:5013/patients/${patient_id}/contact-information`)
+    .then((response) => {
+      contactInfo.value = response.data;
+      })
+    .catch((err) => console.warn(err))
+}
+
+getContactInformation();
 </script>
 
 <template>
@@ -22,10 +39,9 @@ import HeaderText from '../components/HeaderText.vue'
 
     <div>
       <h2>Dane Kontaktowe</h2>
-      <p>Mokotowski Clinic</p>
-      <p>ul. Przykładowa 123, 00-001 Warszawa</p>
-      <p>Telefon: +48 123 456 789</p>
-      <p>Email: kontakt@mokotowskaclinic.pl</p>
+      <p>{{ contactInfo?.address?.city }} {{ contactInfo?.address?.postalCode }} {{ contactInfo?.address?.street }}</p>
+      <p>{{ contactInfo?.phone }}</p>
+      <p>{{ contactInfo?.email }}</p>
     </div>
   </div>
 </template>

@@ -1,17 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import axios from 'axios'
 const data = ref<any>(null)
-
-const callApi = async () => {
-  try {
-    console.log('XD')
-    data.value = await axios.get('http://localhost:5013/weatherforecast')
-    console.log(data.value)
-  } catch (err: any) {
-    console.log('wtf')
-  }
-}
 </script>
 
 <template>
@@ -27,7 +16,7 @@ const callApi = async () => {
           <label for="password">Hasło</label>
           <input type="password" name="password" placeholder="Wprowadź hasło" required />
         </div>
-        <button @click="callApi" type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary">
           <RouterLink to="/appointment-booking">Zaloguj się</RouterLink>
         </button>
         <p class="help-text">

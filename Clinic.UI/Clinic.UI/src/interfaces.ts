@@ -20,3 +20,15 @@ export interface MedicalPersonnel {
   specialization: string
   personelType: MedicalPersonnelType
 }
+
+export interface ContactInformation { 
+  address: Address
+  phone: string
+  email: string
+}
+
+export interface Address {
+  street: string
+  postalCode: string
+  city: string
+}

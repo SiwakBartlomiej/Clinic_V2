@@ -25,6 +25,26 @@ app.MapPost("/book-appointment", (int appointmentId) =>
     Console.WriteLine(appointmentId);
 });
 
+app.MapGet("/patients/{patient_id}/contact-information", (int patient_id) =>
+{
+    var patient = new Patient()
+    {
+        ContactInfo = new ContactInformation()
+        {
+            Address = new Address()
+            {
+                City = "London",
+                PostalCode = "12345",
+                Street = "123 Main Street",
+            },
+            Email = "test@test.com",
+            Phone = "0123456789",
+        }
+    };
+
+    return patient.ContactInfo;
+});
+
 app.MapGet("/appointments", (string dateStart, string dateEnd, string appointmentType) =>
     {
         var appointments = new List<Appointment>
