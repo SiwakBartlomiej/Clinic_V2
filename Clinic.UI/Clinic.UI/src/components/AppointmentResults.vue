@@ -9,6 +9,7 @@ defineProps({
   appointments: Array<Appointment>,
 })
 
+const patientId = 4
 const selectedAppointment = ref<Appointment>()
 
 const bookAppointment = async () => {
@@ -16,6 +17,7 @@ const bookAppointment = async () => {
     .post(`http://localhost:5013/book-appointment`, null, {
       params: {
         appointmentId: selectedAppointment.value?.id,
+        patientId: patientId,
       },
     })
     .then((response) => console.log(response))

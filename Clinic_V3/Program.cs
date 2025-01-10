@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using Clinic_V3;
 using Clinic_V3.Models;
 
@@ -20,9 +21,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/book-appointment", (int appointmentId) =>
+app.MapPost("/book-appointment", (int appointmentId, int patientId) =>
 {
     Console.WriteLine(appointmentId);
+    Console.WriteLine(patientId);
 });
 
 app.MapGet("/patients/{patient_id}/contact-information", (int patient_id) =>
@@ -170,6 +172,9 @@ app.MapGet("/appointments", (string dateStart, string dateEnd, string appointmen
                 }
             }
         };
+
+        var tmp1 = DateTime.Parse(dateStart);
+        var tmp2 = DateTime.Parse(dateEnd);
 
         return appointments;
     })

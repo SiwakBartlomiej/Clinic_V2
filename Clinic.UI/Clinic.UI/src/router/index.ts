@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import ContactView from '../views/ContactView.vue'
 import AppointmentBookingView from '../views/AppointmentBookingView.vue'
 import PatientDashboardView from '../views/PatientDashboardView.vue'
+import ErrorView from '../views/ErrorView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/patient-dashboard',
       name: 'patientDashboard',
       component: PatientDashboardView,
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'errorView',
+      component: ErrorView,
     },
   ],
 })

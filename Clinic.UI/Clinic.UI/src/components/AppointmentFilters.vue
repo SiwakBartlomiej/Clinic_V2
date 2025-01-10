@@ -5,12 +5,13 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import HeaderText from '../components/HeaderText.vue'
 import axios from 'axios'
 import { defineEmits } from 'vue'
-import type Appointment from '../interfaces.ts'
+import type { Appointment } from '../interfaces.ts'
 var startDate = new Date()
 var range = 7
 var endDate = new Date(startDate.setDate(startDate.getDate() + range))
 var selectedAppointment: string
 const dates = ref([new Date(), endDate])
+const date = ref(new Date());
 
 const appointmentTypes: string[] = [
   'Ogólna konsultacja',
@@ -23,18 +24,20 @@ const appointmentTypes: string[] = [
 const emit = defineEmits(['updateData'])
 
 const searchAppointments = async () => {
-  await axios
-    .get<Appointment[]>(`http://localhost:5013/appointments`, {
-      params: {
-        dateStart: String(dates.value[0]),
-        dateEnd: String(dates.value[1]),
-        appointmentType: selectedAppointment,
-      },
-    })
-    .then((response) => {
-      emit('updateData', response.data)
-    })
-    .catch((err) => console.warn(err))
+  if (dates && selectedAppointment) {
+    await axios
+      .get<Appointment[]>(`http://localhost:5013/appointments`, {
+        params: {
+          dateStart: dates.value[0].toJSON(),
+          dateEnd: dates.value[1].toJSON(),
+          appointmentType: selectedAppointment,
+        },
+      })
+      .then((response) => {
+        emit('updateData', response.data)
+      })
+      .catch((err) => console.warn(err))
+  }
 }
 
 const disableDates = (date: Date) => {
@@ -42,6 +45,17 @@ const disableDates = (date: Date) => {
   today.setHours(0, 0, 0, 0)
   return date < today
 }
+
+// const format = ([dateStart, dateEnd]: [Date,Date]) => {
+//   const dayStart = dateStart.getDate()
+//   const monthStart = dateStart.getMonth() + 1
+//   const yearStart = dateStart.getFullYear()
+//   const dayEnd = dateEnd.getDate()
+//   const monthEnd = dateEnd.getMonth() + 1
+//   const yearEnd = dateEnd.getFullYear()
+
+//   return `${dayStart}/${monthStart}/${yearStart} - ${dayEnd}/${monthEnd}/${yearEnd}`
+// }
 </script>
 
 <template>
@@ -54,7 +68,7 @@ const disableDates = (date: Date) => {
           v-model="dates"
           range
           locale="pl"
-          format="dd-MM-yyyy"
+          format="dd/MM/yyyy"
           :disabledDates="disableDates"
           :enableTimePicker="false"
         />
