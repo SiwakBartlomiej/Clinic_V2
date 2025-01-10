@@ -2,7 +2,7 @@
 import AppointmentFilters from '../components/AppointmentFilters.vue'
 import AppointmentResults from '../components/AppointmentResults.vue'
 import { ref } from 'vue'
-import type Appointment from '../interfaces.ts'
+import type { Appointment } from '../interfaces.ts'
 
 const appointments = ref<Appointment[]>([])
 const handleDataUpdate = (data: Appointment[]) => {

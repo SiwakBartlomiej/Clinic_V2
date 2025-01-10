@@ -21,7 +21,7 @@ export interface MedicalPersonnel {
   personelType: MedicalPersonnelType
 }
 
-export interface ContactInformation { 
+export interface ContactInformation {
   address: Address
   phone: string
   email: string

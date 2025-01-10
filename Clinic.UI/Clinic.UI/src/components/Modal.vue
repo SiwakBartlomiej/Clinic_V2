@@ -20,11 +20,7 @@ defineProps({
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             {{ btnCancelText }}
           </button>
-          <button
-            @click="$emit('modal-action')"
-            type="button"
-            class="btn btn-primary"
-          >
+          <button @click="$emit('modal-action')" type="button" class="btn btn-primary">
             {{ btnConfirmText }}
           </button>
         </div>

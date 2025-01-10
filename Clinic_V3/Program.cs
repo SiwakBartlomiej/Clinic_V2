@@ -33,16 +33,61 @@ app.MapGet("/patients/{patient_id}/contact-information", (int patient_id) =>
         {
             Address = new Address()
             {
-                City = "London",
-                PostalCode = "12345",
-                Street = "123 Main Street",
+                City = "Warszawa",
+                PostalCode = "02-908",
+                Street = "Al. Jana Pawła 2 44",
             },
             Email = "test@test.com",
-            Phone = "0123456789",
+            Phone = "+48 519 759 878",
         }
     };
 
     return patient.ContactInfo;
+});
+
+app.MapGet("/patients/{patient_id}/appointments", (int patient_id) =>
+{
+    var patient = new Patient()
+    {
+        Appointments = new List<Appointment>()
+        {
+            new Appointment()
+            {
+                Id = 22,
+                Date = DateTime.Now.AddDays(5),
+                Diagnosis = "Scoliosis",
+                MedicalPersonnel = new MedicalPersonnel()
+                {
+                    Id = 1,
+                    FirstName = "John",
+                    LastName = "Doe",
+                    MedicalPersonnelType = MedicalPersonnelType.Doctor,
+                    Specialization = "Kardiolog",
+                    Title = "dr"
+                },
+                Reason = "Back pain"
+            },
+            
+            new Appointment()
+            {
+                Id = 25,
+                Date = DateTime.Now.AddDays(-5),
+                Diagnosis = "Lyme disease",
+                MedicalPersonnel = new MedicalPersonnel()
+                {
+                    Id = 2,
+                    FirstName = "Jane",
+                    LastName = "Smith",
+                    MedicalPersonnelType = MedicalPersonnelType.Nurse,
+                    Specialization = "Pielęgniarstwo",
+                    Title = "mgr"
+                },
+                Reason = "Headache"
+            }
+        }
+    };
+
+    return patient.Appointments;
 });
 
 app.MapGet("/appointments", (string dateStart, string dateEnd, string appointmentType) =>
