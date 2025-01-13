@@ -4,13 +4,13 @@ import type { Appointment } from '../interfaces.ts'
 import Modal from './Modal.vue'
 import axios from 'axios'
 import { formatDate, getMedicalPersonnelFullName } from '../utils.ts'
-
 defineProps({
   appointments: Array<Appointment>,
 })
 
 const patientId = 4
 const selectedAppointment = ref<Appointment>()
+const bookedSuccessfully = ref<boolean>()
 
 const bookAppointment = async () => {
   axios
@@ -20,8 +20,8 @@ const bookAppointment = async () => {
         patientId: patientId,
       },
     })
-    .then((response) => console.log(response))
-    .catch((err) => console.warn(err))
+    .then((response) => (bookedSuccessfully.value = response.status === 200))
+    .catch(() => (bookedSuccessfully.value = false))
 }
 </script>
 
@@ -55,6 +55,12 @@ const bookAppointment = async () => {
         <h4>{{ formatDate(selectedAppointment?.date ?? new Date()) }}</h4>
         <label>Lekarz:</label>
         <h4>{{ getMedicalPersonnelFullName(selectedAppointment?.medicalPersonnel) }}</h4>
+        <p v-if="bookedSuccessfully !== undefined && bookedSuccessfully" class="text-success">
+          Wizyta umówiona pomyślnie.
+        </p>
+        <p v-if="bookedSuccessfully !== undefined && !bookedSuccessfully" class="text-danger">
+          Coś poszło nie tak, spróbuj ponownie później.
+        </p>
       </template>
     </Modal>
   </div>

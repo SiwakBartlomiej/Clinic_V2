@@ -17,7 +17,10 @@
   /* position: relative;
   left: calc((100vw - 100%) / 2); */
 }
-
+.form-select.is-invalid,
+.was-validated .form-select:invalid {
+  border: 1px solid red;
+}
 main {
   flex: 1;
 }
@@ -116,4 +119,9 @@ ul {
 .btn-secondary:not(:disabled):active {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
+}
+
+label {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }

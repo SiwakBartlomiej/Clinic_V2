@@ -4,14 +4,12 @@ import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import HeaderText from '../components/HeaderText.vue'
 import axios from 'axios'
-import { defineEmits } from 'vue'
 import type { Appointment } from '../interfaces.ts'
 var startDate = new Date()
 var range = 7
 var endDate = new Date(startDate.setDate(startDate.getDate() + range))
-var selectedAppointment: string
+const selectedAppointment = ref<string>('')
 const dates = ref([new Date(), endDate])
-const date = ref(new Date());
 
 const appointmentTypes: string[] = [
   'Ogólna konsultacja',
@@ -23,8 +21,14 @@ const appointmentTypes: string[] = [
 
 const emit = defineEmits(['updateData'])
 
+const areDatesInvalid = ref(false)
+const isAppointmentTypeInvalid = ref(false)
+
 const searchAppointments = async () => {
-  if (dates && selectedAppointment) {
+  areDatesInvalid.value = dates.value && dates.value[0] && dates.value[1] ? false : true
+  isAppointmentTypeInvalid.value = selectedAppointment.value ? false : true
+
+  if (!areDatesInvalid.value && !isAppointmentTypeInvalid.value) {
     await axios
       .get<Appointment[]>(`http://localhost:5013/appointments`, {
         params: {
@@ -46,7 +50,11 @@ const disableDates = (date: Date) => {
   return date < today
 }
 
-// const format = ([dateStart, dateEnd]: [Date,Date]) => {
+// const format = ([dateStart, dateEnd]: [Date, Date]) => {
+//   if (!dateEnd) {
+//     dateEnd = dateStart
+//   }
+
 //   const dayStart = dateStart.getDate()
 //   const monthStart = dateStart.getMonth() + 1
 //   const yearStart = dateStart.getFullYear()
@@ -70,14 +78,18 @@ const disableDates = (date: Date) => {
           locale="pl"
           format="dd/MM/yyyy"
           :disabledDates="disableDates"
+          :class="{ 'is-invalid': areDatesInvalid }"
           :enableTimePicker="false"
         />
       </div>
       <div class="service-picker">
         <label>Typ wizyty</label>
-        <select v-model="selectedAppointment" class="form-select">
-          <option hidden disabled selected value>Wybierz typ wizyty</option>
-          <option v-for="type in appointmentTypes" v-bind:value="type">
+        <select
+          v-model="selectedAppointment"
+          class="form-select"
+          :class="{ 'is-invalid': isAppointmentTypeInvalid }"
+        >
+          <option v-for="type in appointmentTypes">
             {{ type }}
           </option>
         </select>
@@ -92,13 +104,24 @@ const disableDates = (date: Date) => {
 
 <style lang="scss" scoped>
 .website-content {
-  :deep(.dp__menu) {
-    --dp-primary-color: var(--secondary-color);
-    text-align: center;
-
-    .dp__action_cancel {
-      display: none;
+  :deep(.dp__main) {
+    input {
+      border-radius: 0.375rem;
     }
+
+    .dp__menu {
+      --dp-primary-color: var(--secondary-color);
+      text-align: center;
+
+      .dp__action_cancel {
+        display: none;
+      }
+    }
+  }
+
+  :deep(.dp__main.is-invalid) {
+    border: var(--bs-border-width) solid var(--bs-form-invalid-border-color);
+    border-radius: 0.375rem;
   }
 
   h2 {
