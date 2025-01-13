@@ -17,10 +17,7 @@
   /* position: relative;
   left: calc((100vw - 100%) / 2); */
 }
-.form-select.is-invalid,
-.was-validated .form-select:invalid {
-  border: 1px solid red;
-}
+
 main {
   flex: 1;
 }
