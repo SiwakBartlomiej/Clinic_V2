@@ -7,6 +7,15 @@ export interface Appointment {
   diagnosis?: boolean
 }
 
+export interface Patient {
+  id: number
+  firstName: string
+  lastName: string
+  dateOfBirth: Date
+  gender: string
+  contactInfo: ContactInformation
+}
+
 export enum MedicalPersonnelType {
   Doctor,
   Nurse,

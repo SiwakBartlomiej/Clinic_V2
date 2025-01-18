@@ -104,26 +104,6 @@ const disableDates = (date: Date) => {
 
 <style lang="scss" scoped>
 .website-content {
-  :deep(.dp__main) {
-    input {
-      border-radius: 0.375rem;
-    }
-
-    .dp__menu {
-      --dp-primary-color: var(--secondary-color);
-      text-align: center;
-
-      .dp__action_cancel {
-        display: none;
-      }
-    }
-  }
-
-  :deep(.dp__main.is-invalid) {
-    border: var(--bs-border-width) solid var(--bs-form-invalid-border-color);
-    border-radius: 0.375rem;
-  }
-
   h2 {
     display: block;
     text-align: center;

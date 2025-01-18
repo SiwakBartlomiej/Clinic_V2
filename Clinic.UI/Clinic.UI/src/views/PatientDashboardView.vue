@@ -5,13 +5,14 @@ import HeaderText from '../components/HeaderText.vue'
 import type { Appointment, ContactInformation } from '../interfaces.ts'
 import { formatDate, getMedicalPersonnelFullName } from '../utils.ts'
 import cloneDeep from 'lodash.clonedeep'
+import PatientContactInfoForm from '@/components/PatientContactInfoForm.vue'
 
 const contactInfo = ref<ContactInformation>()
 const updatedContactInfo = ref<ContactInformation>()
 const appointments = ref<Appointment[]>([])
 const finishedAppointments = ref<Appointment[]>([])
 const upcomingAppointments = ref<Appointment[]>([])
-const patient_id = 4
+const patient_id = 3
 const isEditing = ref(false)
 
 const getContactInformation = async () => {
@@ -47,7 +48,7 @@ const splitAppointments = () => {
 const updateContactInformation = async () => {
   isEditing.value = false
 
-  axios
+  await axios
     .put<ContactInformation>(
       `http://localhost:5013/patients/${patient_id}/contact-information`,
       updatedContactInfo.value,
@@ -59,7 +60,7 @@ const updateContactInformation = async () => {
     )
     .then((response) => (contactInfo.value = response.data))
     .catch((err) => console.warn(err))
-    .finally((updatedContactInfo.value = cloneDeep(contactInfo.value)))
+    .finally(() => (updatedContactInfo.value = cloneDeep(contactInfo.value)))
 }
 
 const handleCancel = () => {
@@ -127,28 +128,11 @@ getAppointments()
         <p><strong>E-mail:</strong> {{ contactInfo.email }}</p>
         <button class="btn btn-primary" @click="isEditing = true">Edytuj dane</button>
       </div>
-
-      <form v-if="isEditing" @submit.prevent="updateContactInformation">
-        <div>
-          <label for="postalCode"><strong>Kod pocztowy:</strong></label>
-          <input id="postalCode" type="text" v-model="updatedContactInfo.address.postalCode" />
-        </div>
-        <div>
-          <label for="city"><strong>Miasto:</strong></label>
-          <input id="city" type="text" v-model="updatedContactInfo.address.city" />
-        </div>
-        <div>
-          <label for="street"><strong>Ulica:</strong></label>
-          <input id="street" type="text" v-model="updatedContactInfo.address.street" />
-        </div>
-        <div>
-          <label for="phone"><strong>Numer telefonu:</strong></label>
-          <input id="phone" type="text" v-model="updatedContactInfo.phone" />
-        </div>
-        <div>
-          <label for="email"><strong>E-mail:</strong></label>
-          <input id="email" type="email" v-model="updatedContactInfo.email" />
-        </div>
+      <form @submit.prevent="updateContactInformation" v-if="isEditing">
+        <PatientContactInfoForm
+          :contact-information="updatedContactInfo"
+          :handle-cancel="handleCancel"
+        />
         <button class="btn btn-primary" type="submit" @click="">Zapisz dane</button>
         <button class="btn btn-secondary" type="button" @click="handleCancel">Anuluj</button>
       </form>
@@ -176,24 +160,6 @@ getAppointments()
     border: none;
     padding: 0;
     margin-bottom: 5px;
-  }
-
-  form {
-    input {
-      margin-bottom: 10px;
-    }
-
-    label {
-      margin-right: 5px;
-    }
-
-    .btn {
-      margin-top: 10px;
-    }
-
-    .btn-primary {
-      margin-right: 5px;
-    }
   }
 }
 </style>
